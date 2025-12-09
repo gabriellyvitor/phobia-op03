@@ -3,7 +3,6 @@ import time
 import network
 import max30100
 from umqtt.simple import MQTTClient
-import ssl
 import json
 
 WIFI_SSID = "Jupiter"
@@ -81,6 +80,19 @@ print("Reading sensor...")
 spiked = False
 
 
+def send_message(client, bpm_temp, bpm_final):
+    try:
+        msg = {"final_bpm": bpm_final, "temp_bpm": bpm_temp, "timestamp": time.ticks_ms()}
+        mqtt_led.value(1)
+        client.publish(MQTT_TOPIC, json.dumps(msg))
+        time.sleep(0.35)
+    except OSError:
+        print("Reconecting to MQTT")
+        client = mqtt_connect()
+    finally:
+        mqtt_led.value(0)
+
+
 while True:
     try:
         ir, red = sensor.read_sensor()
@@ -102,7 +114,7 @@ while True:
                     bpm_temp = 60000 / time_diff
                     beat_led.value(1)
                     bpm_final = None
-                    if 30 < bpm_temp < 120:
+                    if 30 < bpm_temp < 220:
                         beats.append(bpm_temp)
                         if len(beats) > 4:
                             beats.pop(0)
@@ -111,16 +123,7 @@ while True:
                         print(f"❤ BPM: {bpm_final:.1f}")
 
                     if client:
-                        try:
-                            msg = {"final_bpm": bpm_final, "temp_bpm": bpm_temp, "timestamp": time.ticks_ms()}
-                            mqtt_led.value(1)
-                            client.publish(MQTT_TOPIC, json.dumps(msg))
-                            time.sleep(0.35)
-                        except OSError:
-                            print("Reconecting to MQTT")
-                            client = mqtt_connect()
-                        finally:
-                            mqtt_led.value(0)
+                        send_message(client, bpm_temp, bpm_final)
                     beat_led.value(0)
                     last_beat = time_now
 
