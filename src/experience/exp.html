@@ -1,0 +1,26 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="./css/main.css">
+    <script src="./libs/jQuery/index.js"></script>
+    <script src="https://aframe.io/releases/1.7.1/aframe.min.js"></script>
+    <script src="./scripts/code.js"></script>
+    <meta charset="UTF-8">
+  </head>
+  <body>
+    <div class="scene" id="main">
+      <div class="proprietary_ui">
+        <div id="hud">
+        </div>
+      </div>
+      <div class="post-processing-effect">
+
+      </div>
+      <a-scene id="core-vr">
+        <a-camera position="0 1.6 0" wasd-controls="enabled: false"></a-camera>
+        <a-plane position="0 0 0" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
+        <a-sky color="#0F0F0F"></a-sky>
+      </a-scene>
+    </div>
+  </body>
+</html>
+
