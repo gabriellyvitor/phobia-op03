@@ -49,13 +49,13 @@
 
 .proprietary_ui{
     position: absolute;
-    width: 30vw;
-    height: 30vh;
+    width: 100%;
+    height: 100%;
     padding: 10px 20px;
     font-size: 16px;
     border: none;
-    border-radius: 5px;
     z-index: 10;
+    background-color: rgba(30, 30, 30, 0.8);
 }
 
 .post-processing-effect {
@@ -72,18 +72,72 @@
     display: none;
 }
 
+.button-icon{
+    width: 50px;
+    height: 50px;
+    transform: rotate(90deg);
+}
 
-.card{
+.card {
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 15px;
-    background-color: rgba(255, 255, 255, 0.8);
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
+    background: black;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0);
     text-align: center;
+    z-index: 0;
+}
+
+.card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    padding: 5px; /* border thickness */
+    border-radius: 20px;
+    background: linear-gradient(to bottom, red, black);
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    z-index: -1;
+}
+
+@keyframes zoomInCard {
+    0% {
+        transform: scale(0.0);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes zoomOutCard {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(0.0);
+        opacity: 0;
+    }
+}
+
+
+/* Animation class */
+.card.zoom-in {
+    animation: zoomInCard 0.45s ease-out forwards;
+}
+
+.card.zoom-out {
+    animation: zoomOutCard 0.45s ease-out forwards;
 }
 
 #hud{
@@ -94,22 +148,42 @@
 }
 
 .close-btn{
-    padding: 10px 15px;
+    padding: 2px 2px;
     font-size: 14px;
     border: none;
-    border-radius: 5px;
+    border-radius: 10px;
     cursor: pointer;
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
-}
-.close-btn:hover{
     background-color: #ddd;
 }
 
+.close-btn:hover{
+    background-color: #aaa;
+}
 
 
+.card-title{
+    font-size: 36px;
+    margin: 0;
+    color: #fff;
+}
+
+.card-icon{
+    width: 60px;
+    height: 60px;
+}
 
 
+.card-text{
+    font-size: 16px;
+    color: #fff;
+    padding: 0 10px;
+    text-align: center;
+}
 
+.logo-image{
+    height: 120px;
+}
 
 
 /* CONTAINER */
