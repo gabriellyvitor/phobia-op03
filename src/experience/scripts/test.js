@@ -3,7 +3,4 @@ function teste(){
 }
 
 
-function closeHud(){
-    $('#hud').addClass("hide")
-}
-
+var $light = $()
