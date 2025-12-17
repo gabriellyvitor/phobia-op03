@@ -17,9 +17,145 @@
         <div id="vignette"></div>
       </div>
       <a-scene id="core-vr">
+        <a-assets>
+          <img id="woodTexture" src="../../assets/images/wood_texture.png" crossorigin="anonymous">
+          <img id="woodNormal" src="../../assets/images/wood_normal.png" crossorigin="anonymous">
+          <img id="woodRoughness" src="../../assets/images/wood_roughness.png" crossorigin="anonymous">
+          <img id="woodAO" src="../../assets/images/wood_occlusion.png" crossorigin="anonymous">
+          <img id="wallTexture" src="../../assets/images/wall_basecolor.png" crossorigin="anonymous">
+          <img id="wallNormal" src="../../assets/images/wall_normal.png" crossorigin="anonymous">
+          <img id="wallRoughness" src="../../assets/images/wall_roughness.png" crossorigin="anonymous">
+          <img id="wallAO" src="../../assets/images/wall_ao.png" crossorigin="anonymous">
+          <img id="carpetTexture" src="../../assets/images/carpet_basecolor.jpg" crossorigin="anonymous">
+          <img id="carpetNormal" src="../../assets/images/carpet_normal.jpg" crossorigin="anonymous">
+          <img id="carpetRoughness" src="../../assets/images/carpet_roughness.jpg" crossorigin="anonymous">
+          <img id="carpetAO" src="../../assets/images/carpet_ao.jpg" crossorigin="anonymous">
+        </a-assets>
         <a-camera position="0 1.6 0" wasd-controls="enabled: false" id="player"></a-camera>
-        <a-plane position="0 0 0" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
-        <a-sky color="#0F0F0F"></a-sky>
+        <a-plane 
+          color="#855e49"
+          material="shader: standard; src: #woodTexture; side: double; repeat: 5 5; normal-map: #woodNormal; normal-texture-repeat: 5 5; roughness-map: #woodRoughness; ao-map: #woodAO;"
+          position="0 0 0"
+          rotation="-90 0 0"
+          width="6"
+          height="10">
+        </a-plane>
+        <a-plane 
+          color="#1b421d"
+          material="
+            shader: standard;
+
+            src: #wallTexture;
+            repeat: 6 6;
+
+            normalMap: #wallNormal;
+            normalMapRepeat: 6 6;
+
+            roughnessMap: #wallRoughness;
+            roughnessMapRepeat: 6 6;
+
+            ambientOcclusionMap: #wallAO;
+            ambientOcclusionMapRepeat: 6 6;
+            ambientOcclusionMapIntensity: 1;
+          "
+          position="0 1.5 -5"
+          rotation="0 0 0"
+          width="6"
+          height="3">
+        </a-plane>
+        <a-plane 
+          color="#1b421d"
+          material="
+            shader: standard;
+
+            src: #wallTexture;
+            repeat: 6 6;
+
+            normalMap: #wallNormal;
+            normalMapRepeat: 6 6;
+
+            roughnessMap: #wallRoughness;
+            roughnessMapRepeat: 6 6;
+
+            ambientOcclusionMap: #wallAO;
+            ambientOcclusionMapRepeat: 6 6;
+            ambientOcclusionMapIntensity: 1;
+          "
+          position="0 1.5 5"
+          rotation="180 0 0"
+          width="6"
+          height="3">
+        </a-plane>
+        <a-plane 
+          color="#1b421d"
+          material="
+            shader: standard;
+
+            src: #wallTexture;
+            repeat: 6 6;
+
+            normalMap: #wallNormal;
+            normalMapRepeat: 6 6;
+
+            roughnessMap: #wallRoughness;
+            roughnessMapRepeat: 6 6;
+
+            ambientOcclusionMap: #wallAO;
+            ambientOcclusionMapRepeat: 6 6;
+            ambientOcclusionMapIntensity: 1;
+          "
+          position="3 1.5 0"
+          rotation="0 -90 0"
+          width="10"
+          height="3">
+        </a-plane>
+        <a-plane 
+          color="#1b421d"
+          material="
+            shader: standard;
+
+            src: #wallTexture;
+            repeat: 6 6;
+
+            normalMap: #wallNormal;
+            normalMapRepeat: 6 6;
+
+            roughnessMap: #wallRoughness;
+            roughnessMapRepeat: 6 6;
+
+            ambientOcclusionMap: #wallAO;
+            ambientOcclusionMapRepeat: 6 6;
+            ambientOcclusionMapIntensity: 1;
+          "
+          position="-3 1.5 0"
+          rotation="0 90 0"
+          width="10"
+          height="3">
+        </a-plane>
+        <a-plane 
+          color="#575757"
+          material="
+            shader: standard;
+
+            src: #carpetTexture;
+            repeat: 6 6;
+
+            normalMap: #carpetNormal;
+            normalMapRepeat: 6 6;
+
+            roughnessMap: #carpetRoughness;
+            roughnessMapRepeat: 6 6;
+
+            ambientOcclusionMap: #carpetAO;
+            ambientOcclusionMapRepeat: 6 6;
+            ambientOcclusionMapIntensity: 1;
+          "
+          position="0 3 0"
+          rotation="90 0 0"
+          width="6"
+          height="10">
+        </a-plane>
+        <a-sky color="#000000"></a-sky>
       </a-scene>
     </div>
   </body>
