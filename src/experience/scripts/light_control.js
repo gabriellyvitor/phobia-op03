@@ -1,12 +1,3 @@
-// Manter a posição do prinpal_light
-// Desenhar uma esfera de luz ao intorno desse prinpal_light
-// Ter uma função para controla o quão extensa é essa esfera
-// Ter uma função para controla o quão iluminado é essa esfera
-
-
-// -- Duas luzes: Luz principa ( Segue o prinpal_light ) Luz ambiente ( Fixa )
-
-
 function closeHud(){
     var $a = $('.proprietary_ui')
     $a.remove()
@@ -17,13 +8,66 @@ function closeHud(){
 // -> Espera x segundo até começar a piscar por y frequência
 
 
-var prinpal_light_position = {
-    x:0,
-    y:10,
-    z:0
+var tracking_lights = [
+
+]
+
+
+function spawn_spotlight({x, y, z}, life_time, frequence) {
+    let id_of_new_light = `new_light-${tracking_lights.length}`;
+    tracking_lights.push(id_of_new_light);
+    var $scene = $('#core-vr');
+
+    // Criando a luz inicialmente
+    var new_light_structure = `
+        <a-light id="${id_of_new_light}" 
+          type="point" 
+          angle="60" 
+          color="#856d41"
+          position="${x} ${y} ${z}"
+          distance="15"
+          intensity="10"
+        ></a-light>
+    `;
+    $scene.append(new_light_structure);
+
+    let $light = $("#"+id_of_new_light);
+    console.log($light)
+    let increasing = true;  
+    let intensity = 10;
+
+    let interval = setInterval(() => {
+        if (increasing) {
+            intensity += 1;
+            if (intensity >= 60) increasing = false;
+        } else {
+            intensity -= 1;
+            if (intensity <= 10) increasing = true;
+        }
+        $light.attr('intensity', `${intensity}`);
+    }, frequence);  
+
+    setTimeout(() => {
+        clearInterval(interval); // para o loop de oscilação
+        $light.remove();
+        tracking_lights.pop();
+    }, life_time);
 }
 
-var prinpal_light_intensity = 30
+
+
+
+
+var prinpal_light_props = {
+    position:{
+        x:0,
+        y:10,
+        z:0
+    },
+    intensity:30,
+    distance:30
+
+}
 
 var $prinpal_light = null
 
@@ -34,9 +78,12 @@ function set_prinpal_light(){
     $prinpal_light = $("#prinpal_light")
 }
 
-
 function set_prinpal_light_intensity(value){
     $prinpal_light.attr('intensity', `${Math.max(1,Math.min(30,value))}`)
+}
+
+function set_prinpal_light_distance(value){
+    $prinpal_light.attr('distance', `${Math.max(10,Math.min(100,value))}`)
 }
 
 function set_prinpal_light_position(prinpal_light_position){
@@ -45,8 +92,9 @@ function set_prinpal_light_position(prinpal_light_position){
 
 function loading_ambient_light(){
     set_prinpal_light()
-    set_prinpal_light_position(prinpal_light_position)
-    set_prinpal_light_intensity(prinpal_light_intensity)
+    set_prinpal_light_position(prinpal_light_props.position)
+    set_prinpal_light_intensity(prinpal_light_props.intensity)
+    set_prinpal_light_distance(prinpal_light_props.distance)
     //console.log($prinpal_light)
 }
 
@@ -80,8 +128,6 @@ function set_vignette_strength(value) {
 
     vignette_obg.css("--v-strength", value);
 }
-
-
 
 function tetseImport(){
     window.alert("oi")

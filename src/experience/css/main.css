@@ -48,8 +48,8 @@
 
 .proprietary_ui{
     position: absolute;
-    width: 100%;
-    height: 100%;
+    width: 30%;
+    height: 30%;
     font-size: 16px;
     border: none;
     z-index: 10;
@@ -145,18 +145,31 @@
     transform: translate(-50%, -50%);
 }
 
-.close-btn{
-    padding: 2px 2px;
-    font-size: 14px;
-    border: none;
-    border-radius: 10px;
+.btn {
+    padding: 8px 12px;
+    font-size: 16px;
+    border: 2px solid #555; /* Borda mais escura */
+    border-radius: 12px;
     cursor: pointer;
-    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
-    background-color: #ddd;
+    background-color: #222; /* Cor mais escura para o fundo */
+    color: #f0f0f0; /* Texto claro para contraste */
+    font-family: 'Creepster', sans-serif; /* Fonte temática (se tiver disponível) */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6); /* Sombra mais forte para efeito mais sombrio */
+    transition: all 0.3s ease-in-out;
 }
 
-.close-btn:hover{
-    background-color: #aaa;
+.btn:hover {
+    background-color: #b7232a; /* Cor vermelha para o efeito de hover */
+    border-color: #c12e36;
+    /* box-shadow: 0 0 15px rgba(255, 79, 88, 0.8);  */
+    transform: scale(1.05); /* Efeito de distorção para dar ênfase */
+}
+
+.btn:active {
+    background-color: #ff2d3b; /* Cor mais escura quando pressionado */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.9);
 }
 
 

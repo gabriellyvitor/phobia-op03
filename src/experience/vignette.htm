@@ -9,15 +9,7 @@
   <body>
     <div class="scene" id="main">
       <div class="proprietary_ui">
-        <div class="flex_column" style="width: 100%; height: 100%;">
-          <div class="card" style="width: 90%; height: 90%;">
-            <button class="btn" id="start-experience" onclick="closeHud()">Start Experience</button>
-            <button class="btn" onclick="closeHud()">Spawn light</button>
-          </div>
-        </div>
-      </div>
-      <!-- <div class="proprietary_ui">
-        <div id="hud" onclick="closeHud()">
+        <div id="hud">
           <div class="flex_column">
             <div class="card">
               <button class="close-btn" id="start-experience" onclick="closeHud()">Start Experience</button>
@@ -36,10 +28,13 @@
             </div>
             <div class="card">
               <button class="close-btn" onclick="loading_ambient_light()">Loading ambient light</button>
+              <button class="close-btn" onclick="spawn_spotlight({
+                x:16, y:3, z:-10
+              }, 2000)">Spawn indicator ligth</button>
             </div>
           </div>
         </div>
-      </div> -->
+      </div>
       <div class="post-processing-effect">
         <div id="vignette"></div>
       </div>
