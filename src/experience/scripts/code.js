@@ -403,7 +403,7 @@ function spawnSpider() {
     });
     spiderEntity[spiderId].setAttribute("sound", "src: #spawned; autoplay: true; volume: 0.2, positional: true; distanceModel: linear; maxDistance: 10; refDistance: 1");
     spiderEntity[spiderId].setAttribute('spider-cinematic-controller', {
-        spawn_type: 'sla'
+        spawn_type: 'web'
     });
 
     let explodeSound = document.createElement("a-entity");
