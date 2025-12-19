@@ -14,9 +14,10 @@ var tracking_lights = [
 
 
 function spawn_spotlight({x, y, z}, life_time, frequence, id) {
+    //console.log(tracking_lights)
     let id_of_new_light = `new_light-${id !== undefined ? id : tracking_lights.length}`;
     tracking_lights.push(id_of_new_light);
-    var $scene = $('#core-vr');
+    var $scene = $('#'+id);
 
     // Criando a luz inicialmente
     var new_light_structure = `
@@ -26,30 +27,56 @@ function spawn_spotlight({x, y, z}, life_time, frequence, id) {
           color="#856d41"
           position="${x} ${y} ${z}"
           distance="2"
-          intensity="1"
+          intensity="2"
         ></a-light>
     `;
     $scene.append(new_light_structure);
 
-    let $light = $("#"+id_of_new_light);
-    console.log($light)
+    let $light = $("#" + id_of_new_light);
     let increasing = true;  
     let intensity = 2;
+    let pauseTime = 300; // tempo de pausa em cada extremo (ms)
 
-    let interval = setInterval(() => {
+    let interval;
+
+    function updateLight() {
         if (increasing) {
             intensity += 0.1;
-            if (intensity >= 4) increasing = false;
+            if (intensity >= 4) {
+                intensity = 4;
+                increasing = false;
+                pauseAtExtreme();
+            }
         } else {
             intensity -= 0.1;
-            if (intensity <= 2) increasing = true;
+            if (intensity <= 2) {
+                intensity = 2;
+                increasing = true;
+                pauseAtExtreme();
+            }
         }
         $light.attr('intensity', `${intensity}`);
-    }, frequence);  
+    }
 
+    function pauseAtExtreme() {
+        clearInterval(interval);
+        setTimeout(() => {
+            interval = setInterval(updateLight, frequence);
+        }, pauseTime);
+    }
+
+    // Inicia a oscilação
+    interval = setInterval(updateLight, frequence);
+
+    // Remove a luz após o tempo de vida
     setTimeout(() => {
-        clearInterval(interval); // para o loop de oscilação
-        $light.remove();
+        clearInterval(interval);
+        if ($light){
+            $light.remove();
+        }else{
+            window.alert("Eita")
+        }
+        
         tracking_lights.pop();
     }, life_time);
 }

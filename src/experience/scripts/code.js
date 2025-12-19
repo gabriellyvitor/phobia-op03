@@ -445,6 +445,9 @@ function spawnSpider() {
 
         const vectorToSpider = spiderPos.clone().sub(playerPos).normalize();
         const dot = direction.dot(vectorToSpider);
+        if(!scene.querySelector(`#new_light-${spiderId}`)){
+                spawn_spotlight(spiderPos, 1000, 20, spiderId);
+        }
 
         if (dot < -0.85) {
             if (!lookStartTime) lookStartTime = performance.now();
@@ -452,9 +455,6 @@ function spawnSpider() {
 
             const progress = Math.min(elapsed / lookDuration, 1);
             drawSector(ctx, indicator.width, indicator.height, progress);
-            if(!scene.querySelector(`#new_light-${spiderId}`)){
-                spawn_spotlight(spiderPos, 1000, 100, spiderId);
-            }
 
             const spiderScreenPos = spiderEntity[spiderId].object3D.position.clone();
             const camera = scene.camera;
