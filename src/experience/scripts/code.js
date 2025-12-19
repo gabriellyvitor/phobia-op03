@@ -229,7 +229,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 let spiderTimeout = null;
-let spiderEntity = null;
+let spiderEntity = {};
 const spiderModel = "../../assets/animations/idle/Giant_Spider_idle.glb";
 const spiderLookDuration = 20000;
 let spiderNumber = 0;
@@ -320,7 +320,6 @@ let spawnPoints = [{
 ];
 function spawnSpider() {
     if (!start) return;
-
     const player = document.getElementById("player");
     const playerPos = new THREE.Vector3();
     player.object3D.getWorldPosition(playerPos);
@@ -391,19 +390,19 @@ function spawnSpider() {
     } while (dot < -0.55 || isColliding(spiderPos));
 
     let spiderId = `spider-${spiderNumber++}`;
-    spiderEntity = document.createElement("a-entity");
-    spiderEntity.setAttribute("gltf-model", spiderModel);
-    spiderEntity.setAttribute("position", `${x} ${y} ${z}`);
-    spiderEntity.setAttribute("rotation", `${rot_x} ${rot_y} ${rot_z}`);
-    spiderEntity.setAttribute("scale", "0.01 0.01 0.01");
-    spiderEntity.setAttribute("id", spiderId);
-    spiderEntity.setAttribute("animation-mixer", {
+    spiderEntity[spiderId] = document.createElement("a-entity");
+    spiderEntity[spiderId].setAttribute("gltf-model", spiderModel);
+    spiderEntity[spiderId].setAttribute("position", `${x} ${y} ${z}`);
+    spiderEntity[spiderId].setAttribute("rotation", `${rot_x} ${rot_y} ${rot_z}`);
+    spiderEntity[spiderId].setAttribute("scale", "0.01 0.01 0.01");
+    spiderEntity[spiderId].setAttribute("id", spiderId);
+    spiderEntity[spiderId].setAttribute("animation-mixer", {
         src: "*",
         loop: "repeat",
         timeScale: 1
     });
-    spiderEntity.setAttribute("sound", "src: #spawned; autoplay: true; volume: 0.2, positional: true; distanceModel: linear; maxDistance: 10; refDistance: 1");
-    spiderEntity.setAttribute('spider-cinematic-controller', {
+    spiderEntity[spiderId].setAttribute("sound", "src: #spawned; autoplay: true; volume: 0.2, positional: true; distanceModel: linear; maxDistance: 10; refDistance: 1");
+    spiderEntity[spiderId].setAttribute('spider-cinematic-controller', {
         spawn_type: 'sla'
     });
 
@@ -413,7 +412,7 @@ function spawnSpider() {
         src: "#explode",
         autoplay: false
     });
-    scene.appendChild(spiderEntity);
+    scene.appendChild(spiderEntity[spiderId]);
     scene.appendChild(explodeSound);
 
     const indicator = document.createElement("canvas");
@@ -430,7 +429,7 @@ function spawnSpider() {
     let lookStartTime = null;
     const lookDuration = 2000; // 2s
     const spiderCheckInterval = setInterval(() => {
-        if (!spiderEntity) {
+        if (!spiderEntity[spiderId]) {
             clearInterval(spiderCheckInterval);
             document.body.removeChild(indicator);
             return;
@@ -438,7 +437,7 @@ function spawnSpider() {
 
         const spiderPos = new THREE.Vector3();
         const playerPos = new THREE.Vector3();
-        spiderEntity.object3D.getWorldPosition(spiderPos);
+        spiderEntity[spiderId].object3D.getWorldPosition(spiderPos);
         player.object3D.getWorldPosition(playerPos);
 
         const direction = new THREE.Vector3();
@@ -457,7 +456,7 @@ function spawnSpider() {
                 spawn_spotlight(spiderPos, 1000, 100, spiderId);
             }
 
-            const spiderScreenPos = spiderEntity.object3D.position.clone();
+            const spiderScreenPos = spiderEntity[spiderId].object3D.position.clone();
             const camera = scene.camera;
             const vector = spiderScreenPos.project(camera);
             const x = (vector.x * 0.5 + 0.5) * window.innerWidth - indicator.width / 2;
@@ -467,17 +466,17 @@ function spawnSpider() {
 
             if (elapsed >= lookDuration) {
                 lookedAt = true;
-                const spiderController = spiderEntity.components['spider-cinematic-controller'];
+                const spiderController = spiderEntity[spiderId].components['spider-cinematic-controller'];
                 if (spiderController) {
                     spiderController.triggerDeath(spiderPos);
                     setTimeout(() => {
-                        removeSpider();
+                        removeSpider(spiderId);
                     }, 2000);
                 } else {
                     // fallback: remove spider immediately if controller not found
-                    removeSpider();
+                    removeSpider(spiderId);
                 }
-                removeSpider();
+                removeSpider(spiderId);
                 clearInterval(spiderCheckInterval);
                 document.body.removeChild(indicator);
                 explodeSound.components.sound.playSound();
@@ -493,7 +492,7 @@ function spawnSpider() {
     }, 100);
 
     setTimeout(() => {
-        if (!lookedAt && spiderEntity) {
+        if (!lookedAt && spiderEntity[spiderId]) {
             clearInterval(timerInterval);
             timerInterval = null;
 
@@ -526,10 +525,10 @@ function drawSector(ctx, width, height, progress) {
     ctx.fill();
 }
 
-function removeSpider() {
-    if (spiderEntity) {
-        spiderEntity.parentNode.removeChild(spiderEntity);
-        spiderEntity = null;
+function removeSpider(id) {
+    if (spiderEntity[id]) {
+        spiderEntity[id].parentNode.removeChild(spiderEntity[id]);
+        delete spiderEntity[id];
     }
 }
 
@@ -543,7 +542,9 @@ function scheduleNextSpider() {
 
 function stopSpiders() {
     clearTimeout(spiderTimeout);
-    removeSpider();
+    for(let i of Object.keys(spiderEntity)){
+        removeSpider(i);
+    }
 }
 
 // Simple game over function

@@ -56,6 +56,11 @@
           <a-asset-item id="ToySpider" src="../../assets/3Dmodels/ToySpider.glb" crossorigin="anonymous"></a-asset-item>
           <a-asset-item id="ToyBuild" src="../../assets/3Dmodels/Skyscraper.glb" crossorigin="anonymous"></a-asset-item>
           <a-asset-item id="giantSpider" src="../../assets/3Dmodels/Giant_Spider.glb" crossorigin="anonymous"></a-asset-item>
+          <a-asset-item id="Cap" src="../../assets/3Dmodels/Cap.glb"></a-asset-item>
+          <a-asset-item id="Rack" src="../../assets/3Dmodels/Coat_rack.glb"></a-asset-item>
+          <a-asset-item id="Fedora" src="../../assets/3Dmodels/Fedora.glb"></a-asset-item>
+          <a-asset-item id="Fish" src="../../assets/3Dmodels/Anglerfish.glb"></a-asset-item>
+          <a-asset-item id="Clown" src="../../assets/3Dmodels/Clown_Mask.glb"></a-asset-item>
           <audio id="ambient" src="../../assets/sounds/ambient_music.mp3" preload="auto"></audio>
           <audio id="confirm" src="../../assets/sounds/confirm.wav" preload="auto"></audio>
           <audio id="explode" src="../../assets/sounds/explode.wav" preload="auto"></audio>
@@ -347,13 +352,14 @@
             rotation="0 0 0"
             scale="0.5 0.5 0.5"
             ></a-entity>
-          <a-light 
+          <!-- <a-light 
             type="point" 
-            color="#ffffff" 
+            color="#d4c58e" 
             intensity="0.7" 
-            distance="10" 
+            distance="8"
+            radius="15" 
             position="0 1.8 0"
-            ></a-light>
+            ></a-light> -->
           <a-entity
             gltf-model="#Closet"
             position="-2.1 0 -4.2"
@@ -413,6 +419,30 @@
             position="2.222 1.4 3.348"
             rotation="0 -105 0"
             scale="0.03 0.03 0.03"
+            ></a-entity>
+          <a-entity
+            gltf-model="#Clown"
+            position="-2.827 1.625 0.362"
+            rotation="0 20 0"
+            scale="0.7 0.7 0.7"
+            ></a-entity>
+          <a-entity
+            gltf-model="#Fish"
+            position="-2.738 1.439 -0.330"
+            rotation="0 45 0"
+            scale="0.10 0.10 0.10"
+            ></a-entity>
+          <a-entity
+            gltf-model="#Rack"
+            position="2.1 0 -4.2"
+            rotation="0 0 0"
+            scale="0.2 0.2 0.2"
+            ></a-entity>
+          <a-entity
+            gltf-model="#Cap"
+            position="1.914 1.798 -4.007"
+            rotation="0 -147.131 -84.672"
+            scale="0.4 0.4 0.4"
             ></a-entity>
         <a-sky color="#000000"></a-sky>
       </a-scene>
