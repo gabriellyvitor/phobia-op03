@@ -5,18 +5,14 @@
     <script src="https://aframe.io/releases/1.7.1/aframe.min.js"></script>
     <script type="module" src="./scripts/code.js"></script>
     <script type="module" src="./scripts/light_control.js"></script>
-    <script type="module" src="../../assets/animations/spide_code/spider-controller.js"></script>
-    <script type="module" src="../../assets/animations/spide_code/spider-loader.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/aframe-extras@6.1.1/dist/aframe-extras.min.js"></script>
+    <script type="module" src="./assets/animations/spide_code/spider-controller.js"></script>
+    <script type="module" src="./assets/animations/spide_code/spider-loader.js"></script>
+    <script src="https://supereggbert.github.io/aframe-htmlembed-component/dist/build.js"></script>
 
     <meta charset="UTF-8">
   </head>
   <body>
     <div class="scene" id="main">
-      <div class="proprietary_ui">
-        <div id="hud">
-        </div>
-      </div>
       <div id="experience-timer" class="hide easy-box">
         <span id="timer-text" class="easy-text">03:00</span>
       </div>
@@ -25,46 +21,46 @@
       </div>
       <a-scene id="core-vr">
         <a-assets>
-          <img id="woodTexture" src="../../assets/images/wood_texture.png" crossorigin="anonymous">
-          <img id="woodNormal" src="../../assets/images/wood_normal.png" crossorigin="anonymous">
-          <img id="woodRoughness" src="../../assets/images/wood_roughness.png" crossorigin="anonymous">
-          <img id="woodAO" src="../../assets/images/wood_occlusion.png" crossorigin="anonymous">
-          <img id="wallTexture" src="../../assets/images/wall_basecolor.png" crossorigin="anonymous">
-          <img id="wallNormal" src="../../assets/images/wall_normal.png" crossorigin="anonymous">
-          <img id="wallRoughness" src="../../assets/images/wall_roughness.png" crossorigin="anonymous">
-          <img id="wallAO" src="../../assets/images/wall_ao.png" crossorigin="anonymous">
-          <img id="carpetTexture" src="../../assets/images/carpet_basecolor.jpg" crossorigin="anonymous">
-          <img id="carpetNormal" src="../../assets/images/carpet_normal.jpg" crossorigin="anonymous">
-          <img id="carpetRoughness" src="../../assets/images/carpet_roughness.jpg" crossorigin="anonymous">
-          <img id="carpetAO" src="../../assets/images/carpet_ao.jpg" crossorigin="anonymous">
-          <a-asset-item id="door" src="../../assets/3Dmodels/Door.glb" crossorigin="anonymous"></a-asset-item>
-          <a-asset-item id="barricade" src="../../assets/3Dmodels/Barricade.glb" crossorigin="anonymous"></a-asset-item>
-          <a-asset-item id="window" src="../../assets/3Dmodels/Window.glb" crossorigin="anonymous"></a-assets-item>
-          <a-asset-item id="windowBarricade1" src="../../assets/3Dmodels/windowBarricade1.glb" crossorigin="anonymous"></a-asset-item>
-          <a-asset-item id="windowBarricade2" src="../../assets/3Dmodels/windowBarricade2.glb" crossorigin="anonymous"></a-asset-item>
-          <a-asset-item id="windowRounded" src="../../assets/3Dmodels/WindowRounded.glb" crossorigin="anonymous"></a-asset-item>
-          <a-asset-item id="Bed" src="../../assets/3Dmodels/Bed.glb" crossorigin="anonymous"></a-asset-item>
-          <a-asset-item id="Bookshelf" src="../../assets/3Dmodels/Bookshelf.glb" crossorigin="anonymous"></a-asset-item>
-          <a-asset-item id="Lamp" src="../../assets/3Dmodels/Lamp.glb" crossorigin="anonymous"></a-asset-item>
-          <a-asset-item id="Closet" src="../../assets/3Dmodels/Closet.glb" crossorigin="anonymous"></a-asset-item>
-          <a-asset-item id="Boxes1" src="../../assets/3Dmodels/Boxes1.glb" crossorigin="anonymous"></a-asset-item>
-          <a-asset-item id="Boxes2" src="../../assets/3Dmodels/Boxes2.glb" crossorigin="anonymous"></a-asset-item>
-          <a-asset-item id="Papers" src="../../assets/3Dmodels/Papers.glb" crossorigin="anonymous"></a-asset-item>
-          <a-asset-item id="Cobweb" src="../../assets/3Dmodels/Cobweb.glb" crossorigin="anonymous"></a-asset-item>
-          <a-asset-item id="BrokenGlass" src="../../assets/3Dmodels/BrokenGlass.glb" crossorigin="anonymous"></a-asset-item>
-          <a-asset-item id="Shelf" src="../../assets/3Dmodels/Shelf.glb" crossorigin="anonymous"></a-asset-item>
-          <a-asset-item id="ToySpider" src="../../assets/3Dmodels/ToySpider.glb" crossorigin="anonymous"></a-asset-item>
-          <a-asset-item id="ToyBuild" src="../../assets/3Dmodels/Skyscraper.glb" crossorigin="anonymous"></a-asset-item>
-          <a-asset-item id="giantSpider" src="../../assets/3Dmodels/Giant_Spider.glb" crossorigin="anonymous"></a-asset-item>
-          <a-asset-item id="Cap" src="../../assets/3Dmodels/Cap.glb"></a-asset-item>
-          <a-asset-item id="Rack" src="../../assets/3Dmodels/Coat_rack.glb"></a-asset-item>
-          <a-asset-item id="Fedora" src="../../assets/3Dmodels/Fedora.glb"></a-asset-item>
-          <a-asset-item id="Fish" src="../../assets/3Dmodels/Anglerfish.glb"></a-asset-item>
-          <a-asset-item id="Clown" src="../../assets/3Dmodels/Clown_Mask.glb"></a-asset-item>
-          <audio id="ambient" src="../../assets/sounds/ambient_music.mp3" preload="auto"></audio>
-          <audio id="confirm" src="../../assets/sounds/confirm.wav" preload="auto"></audio>
-          <audio id="explode" src="../../assets/sounds/explode.wav" preload="auto"></audio>
-          <audio id="spawned" src="../../assets/sounds/spawned.wav" preload="auto"></audio>
+          <img id="woodTexture" src="./assets/images/wood_texture.png" crossorigin="anonymous">
+          <img id="woodNormal" src="./assets/images/wood_normal.png" crossorigin="anonymous">
+          <img id="woodRoughness" src="./assets/images/wood_roughness.png" crossorigin="anonymous">
+          <img id="woodAO" src="./assets/images/wood_occlusion.png" crossorigin="anonymous">
+          <img id="wallTexture" src="./assets/images/wall_basecolor.png" crossorigin="anonymous">
+          <img id="wallNormal" src="./assets/images/wall_normal.png" crossorigin="anonymous">
+          <img id="wallRoughness" src="./assets/images/wall_roughness.png" crossorigin="anonymous">
+          <img id="wallAO" src="./assets/images/wall_ao.png" crossorigin="anonymous">
+          <img id="carpetTexture" src="./assets/images/carpet_basecolor.jpg" crossorigin="anonymous">
+          <img id="carpetNormal" src="./assets/images/carpet_normal.jpg" crossorigin="anonymous">
+          <img id="carpetRoughness" src="./assets/images/carpet_roughness.jpg" crossorigin="anonymous">
+          <img id="carpetAO" src="./assets/images/carpet_ao.jpg" crossorigin="anonymous">
+          <a-asset-item id="door" src="./assets/3Dmodels/Door.glb" crossorigin="anonymous"></a-asset-item>
+          <a-asset-item id="barricade" src="./assets/3Dmodels/Barricade.glb" crossorigin="anonymous"></a-asset-item>
+          <a-asset-item id="window" src="./assets/3Dmodels/Window.glb" crossorigin="anonymous"></a-assets-item>
+          <a-asset-item id="windowBarricade1" src="./assets/3Dmodels/windowBarricade1.glb" crossorigin="anonymous"></a-asset-item>
+          <a-asset-item id="windowBarricade2" src="./assets/3Dmodels/windowBarricade2.glb" crossorigin="anonymous"></a-asset-item>
+          <a-asset-item id="windowRounded" src="./assets/3Dmodels/WindowRounded.glb" crossorigin="anonymous"></a-asset-item>
+          <a-asset-item id="Bed" src="./assets/3Dmodels/Bed.glb" crossorigin="anonymous"></a-asset-item>
+          <a-asset-item id="Bookshelf" src="./assets/3Dmodels/Bookshelf.glb" crossorigin="anonymous"></a-asset-item>
+          <a-asset-item id="Lamp" src="./assets/3Dmodels/Lamp.glb" crossorigin="anonymous"></a-asset-item>
+          <a-asset-item id="Closet" src="./assets/3Dmodels/Closet.glb" crossorigin="anonymous"></a-asset-item>
+          <a-asset-item id="Boxes1" src="./assets/3Dmodels/Boxes1.glb" crossorigin="anonymous"></a-asset-item>
+          <a-asset-item id="Boxes2" src="./assets/3Dmodels/Boxes2.glb" crossorigin="anonymous"></a-asset-item>
+          <a-asset-item id="Papers" src="./assets/3Dmodels/Papers.glb" crossorigin="anonymous"></a-asset-item>
+          <a-asset-item id="Cobweb" src="./assets/3Dmodels/Cobweb.glb" crossorigin="anonymous"></a-asset-item>
+          <a-asset-item id="BrokenGlass" src="./assets/3Dmodels/BrokenGlass.glb" crossorigin="anonymous"></a-asset-item>
+          <a-asset-item id="Shelf" src="./assets/3Dmodels/Shelf.glb" crossorigin="anonymous"></a-asset-item>
+          <a-asset-item id="ToySpider" src="./assets/3Dmodels/ToySpider.glb" crossorigin="anonymous"></a-asset-item>
+          <a-asset-item id="ToyBuild" src="./assets/3Dmodels/Skyscraper.glb" crossorigin="anonymous"></a-asset-item>
+          <a-asset-item id="giantSpider" src="./assets/3Dmodels/Giant_Spider.glb" crossorigin="anonymous"></a-asset-item>
+          <a-asset-item id="Cap" src="./assets/3Dmodels/Cap.glb"></a-asset-item>
+          <a-asset-item id="Rack" src="./assets/3Dmodels/Coat_rack.glb"></a-asset-item>
+          <a-asset-item id="Fedora" src="./assets/3Dmodels/Fedora.glb"></a-asset-item>
+          <a-asset-item id="Fish" src="./assets/3Dmodels/Anglerfish.glb"></a-asset-item>
+          <a-asset-item id="Clown" src="./assets/3Dmodels/Clown_Mask.glb"></a-asset-item>
+          <audio id="ambient" src="./assets/sounds/ambient_music.mp3" preload="auto"></audio>
+          <audio id="confirm" src="./assets/sounds/confirm.wav" preload="auto"></audio>
+          <audio id="explode" src="./assets/sounds/explode.wav" preload="auto"></audio>
+          <audio id="spawned" src="./assets/sounds/spawned.wav" preload="auto"></audio>
         </a-assets>
         <a-camera position="0 1.6 0" wasd-controls="enabled: false" id="player">
           <a-cursor
@@ -73,6 +69,11 @@
             color="#fff"
             animation__fuse="property: scale; from: 1 1 1; to: 0.6 0.6 0.6; dur: 300"></a-cursor>
         </a-camera>
+        <a-entity id="right-controller" laser-controls="hand: right" controller-listener></a-entity>
+        <a-entity id="left-controller" laser-controls="hand: left" controller-listener></a-entity>
+        <a-entity id="hud-plane" position="0 1.6 -0.5">
+          <a-entity id="hud"></a-entity>
+        </a-entity>
         <a-entity 
           id="ambient_mixer"
           sound="src: #ambient; autoplay: false; loop: true; volume: 0.3"

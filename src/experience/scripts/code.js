@@ -3,26 +3,25 @@ import { set_prinpal_light_distance, set_vignette_size, set_vignette_strength, s
 var popups = ["warning", "logo", "info"];
 var popupsInfo = {
     "warning": {
-        "image": `<img src="../../assets/images/warning.jpeg" alt="warning Icon" class="card-image">`,
+        "image": `./assets/images/warning.jpeg`,
         "buttonAction": "changeCard()"
     },
     "logo": {
-        "image": `
-            <video id="logoVideo"
-                muted
-                loop
-                autoplay
-                playsinline
-                width="700">
-                <source src="../../assets/videos/logo.mp4" type="video/mp4">
-            </video>
-        `,
+        "image": "./assets/videos/logo.mp4",
         "buttonAction": "changeCard()",
     },
     "info": {
-        "image": `<img src="../../assets/images/welcome.jpeg" alt="info Icon" class="card-image">`,
+        "image": "./assets/images/welcome.jpeg",
         "buttonAction": "startExperience()",
-    }
+    },
+    "win": {
+        "image": "./assets/images/Ganhou.png",
+        "buttonAction": "changeCard()",
+    },
+    "lose": {
+        "image": "./assets/images/Perdeu.png",
+        "buttonAction": "changeCard()",
+    },
 };
 
 var start = false;
@@ -30,7 +29,7 @@ let timerInterval = null;
 let remainingTime = 180;
 var difficulty = 0;
 var won = false
-
+var ended = false
 
 var size_vig = 70;
 let blinkTimeout = null;
@@ -94,6 +93,7 @@ function startTimer() {
             timerEl.classList.remove("shake-easy", "shake-medium", "shake-hard");
             textEl.textContent = "00:00";
             won = true;
+            ended = true;
             gameOver();
         }
     }, 1000);
@@ -168,57 +168,144 @@ function stopRandomBlinking() {
     blinkTimeout = null;
 }
 
-function addCard(){
-    var popupId = popups.shift();
-    var popup = popupsInfo[popupId];
-    var cardHtml = `${popup.image}
-                    <button class="btn" onclick="${popup.buttonAction}">
-                      <img src="../../assets/images/arrow.png" alt="Enter VR Icon" class="button-icon">
-                    </button>`;
-    $('#hud').append(`<div class="card zoom-in" id="${popupId}">${cardHtml}</div>`);
+document.addEventListener('keydown', (event) => {
+    if (event.key === " " || event.key === "Enter") {   
+        if(!ended){
+            if(!start){
+                if(popups.length > 0){
+                    changeCard();
+                } else {
+                    startExperience()
+                }
+            }
+        }
+    } else {
+        window.location.reload();
+    }
+});
 
-    const video = document.getElementById('logoVideo');
-    if (video) {
-        video.play().catch(err => {
-            console.warn("Video autoplay blocked:", err);
-        });
+// For VR controller input (assuming A-Frame)
+AFRAME.registerComponent('controller-listener', {
+    init: function () {
+        const el = this.el;
+        if(!ended){
+            if(!start){
+                if(popups.length > 0 && !start){
+                    el.addEventListener('abuttondown', changeCard);
+                    el.addEventListener('bbuttondown', changeCard);
+                    el.addEventListener('triggerdown', changeCard);
+                } else {
+                    el.removeEventListener('abuttondown', changeCard);
+                    el.removeEventListener('bbuttondown', changeCard);
+                    el.removeEventListener('triggerdown', changeCard);
+                    el.addEventListener('abuttondown', startExperience);
+                    el.addEventListener('bbuttondown', startExperience);
+                    el.addEventListener('triggerdown', startExperience);
+                }
+            }
+        } else {
+            window.location.reload();
+        }
+    }
+});
+
+AFRAME.registerComponent('console-inspector', {
+        schema: {
+          target: { type: 'selector' } // the entity to inspect
+        },
+
+        init: function () {
+          this.el.addEventListener('click', () => {
+            if (!this.data.target) {
+              console.warn('No target entity specified for console-inspector.');
+              return;
+            }
+
+            // Log the entity's components and attributes
+            console.log('--- Console Inspector ---');
+            console.log('Entity:', this.data.target);
+            console.log('Components:', this.data.target.components);
+            console.log('Attributes:', this.data.target.attributes);
+            console.log('Position:', this.data.target.getAttribute('position'));
+            console.log('Rotation:', this.data.target.getAttribute('rotation'));
+            console.log('Scale:', this.data.target.getAttribute('scale'));
+          });
+        }
+});
+
+
+function addCard() {
+    if(popups.length> 0){
+        const popupId = popups.shift();
+        const popup = popupsInfo[popupId];
+        const hud = document.querySelector('#hud');
+
+        // Clear previous card
+        hud.innerHTML = '';
+
+        // Background panel
+        const panel = document.createElement('a-plane');
+        panel.setAttribute('width', '4');
+        panel.setAttribute('height', '2');
+        panel.setAttribute('color', '#111');
+        panel.setAttribute('opacity', '0.9');
+        panel.setAttribute('position', '0 2 0');
+        hud.appendChild(panel);
+
+        // IMAGE CARD
+        if (popupId !== 'logo') {
+            const image = document.createElement('a-image');
+            image.setAttribute('src', popup.image);
+            image.setAttribute('width', '0.45');
+            image.setAttribute('height', '0.5');
+            image.setAttribute('position', '0 0.05 0.01');
+            hud.appendChild(image);
+        }
+
+        // VIDEO CARD
+        if (popupId === 'logo') {
+            const video = document.createElement('a-video');
+            video.setAttribute('src', popup.image);
+            video.setAttribute('width', '0.5');
+            video.setAttribute('height', '0.3');
+            video.setAttribute('position', '0 0.05 0.01');
+            video.setAttribute('autoplay', 'true');
+            video.setAttribute('loop', 'true');
+            hud.appendChild(video);
+        }
+    } else {
+        startExperience()
     }
 }
 
-function changeCard(){
-    const $card = $('.card');
+
+function changeCard() {
+
     let confirmSound = document.querySelector("#confirm_mixer");
     confirmSound.components.sound.playSound();
 
-    $card.removeClass('zoom-in').addClass('zoom-out');
-
     setTimeout(() => {
         confirmSound.components.sound.stopSound();
-    },2000);
-    setTimeout(() => {
-        $card.remove();
         addCard();
     }, 500);
 }
 
-function startExperience(){
-    const $card = $('.card');
-
+function startExperience() {
     let confirmSound = document.querySelector("#confirm_mixer");
     let ambientSound = document.querySelector("#ambient_mixer");
-    confirmSound.components.sound.playSound();
 
-    $card.removeClass('zoom-in').addClass('zoom-out');
+    confirmSound.components.sound.playSound();
 
     setTimeout(() => {
         confirmSound.components.sound.stopSound();
         ambientSound.components.sound.playSound();
-    },2000);
-    setTimeout(() => {
-        $card.remove();
-        $('.proprietary_ui').remove();
+
+        document.querySelector('#hud').innerHTML = '';
+        document.querySelector('#hud-plane').setAttribute('visible', 'false');
+
         startTimer();
     }, 500);
+
     start = true;
 }
 
@@ -230,7 +317,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 let spiderTimeout = null;
 let spiderEntity = {};
-const spiderModel = "../../assets/animations/idle/Giant_Spider_idle.glb";
+const spiderModel = "./assets/animations/idle/Giant_Spider_idle.glb";
 const spiderLookDuration = 20000;
 let spiderNumber = 0;
 let spawnPoints = [{
@@ -416,9 +503,11 @@ function spawnSpider() {
     scene.appendChild(explodeSound);
 
     const indicator = document.createElement("canvas");
-    indicator.width = 64;
-    indicator.height = 64;
+    indicator.width = 32;
+    indicator.height = 32;
     indicator.style.position = "absolute";
+    indicator.style.marginLeft= "20px"
+    indicator.style.marginTop="-20px"
     indicator.style.pointerEvents = "none";
     document.body.appendChild(indicator);
     const ctx = indicator.getContext("2d");
@@ -445,11 +534,11 @@ function spawnSpider() {
 
         const vectorToSpider = spiderPos.clone().sub(playerPos).normalize();
         const dot = direction.dot(vectorToSpider);
-        if(!scene.querySelector(`#new_light-${spiderId}`)){
-                spawn_spotlight(spiderPos, 1000, 20, spiderId);
-        }
 
         if (dot < -0.85) {
+            if(!scene.querySelector(`#new_light-${spiderId}`)){
+                spawn_spotlight(spiderPos, 1000, 20, spiderId);
+            }
             if (!lookStartTime) lookStartTime = performance.now();
             const elapsed = performance.now() - lookStartTime;
 
@@ -509,6 +598,7 @@ function spawnSpider() {
             }
 
             clearInterval(spiderCheckInterval);
+            ended = true;
             gameOver();
             document.body.removeChild(indicator);
         }
@@ -547,10 +637,15 @@ function stopSpiders() {
     }
 }
 
-// Simple game over function
 function gameOver() {
-    if(!won){alert("Game Over! You didn't look at the spider in time.");}
-    else{alert("Congratulations! You survived the experience.");}
+    if(!won){
+        popups.push("lose")
+    }
+    else{
+        popups.push("win")
+    }
+    document.querySelector('#hud-plane').setAttribute('visible', 'true');
+    addCard();
     stopTimer();
     stopSpiders();
     stopRandomBlinking();
