@@ -34,7 +34,6 @@ AFRAME.registerComponent("spider-cinematic-controller", {
         this.currentPos.y + this.data.drop_height,
         this.finalPos.z
       );
-      this.el.object3D.rotation.x = THREE.MathUtils.degToRad(-90);
     } else if (this.data.spawn_type === "hole") {
       this.el.object3D.position.set(
         this.finalPos.x,
@@ -91,14 +90,14 @@ AFRAME.registerComponent("spider-cinematic-controller", {
 
     if (this.data.stay_height == false) {
       console.log(this.data.stay_height);
-      setTimeout(() => {
-        this.el.setAttribute("animation__flip", {
-          property: "rotation",
-          to: "0 0 0",
-          dur: 500,
-          easing: "easeOutQuad",
-        });
-      }, dur - 600);
+      // setTimeout(() => {
+      //   this.el.setAttribute("animation__flip", {
+      //     property: "rotation",
+      //     to: "0 0 0",
+      //     dur: 500,
+      //     easing: "easeOutQuad",
+      //   });
+      // }, dur - 600);
     }
 
     setTimeout(() => {
