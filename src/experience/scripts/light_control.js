@@ -13,8 +13,8 @@ var tracking_lights = [
 ]
 
 
-function spawn_spotlight({x, y, z}, life_time, frequence) {
-    let id_of_new_light = `new_light-${tracking_lights.length}`;
+function spawn_spotlight({x, y, z}, life_time, frequence, id) {
+    let id_of_new_light = `new_light-${id !== undefined ? id : tracking_lights.length}`;
     tracking_lights.push(id_of_new_light);
     var $scene = $('#core-vr');
 
@@ -22,11 +22,11 @@ function spawn_spotlight({x, y, z}, life_time, frequence) {
     var new_light_structure = `
         <a-light id="${id_of_new_light}" 
           type="point" 
-          angle="60" 
+          angle="15" 
           color="#856d41"
           position="${x} ${y} ${z}"
-          distance="15"
-          intensity="10"
+          distance="2"
+          intensity="1"
         ></a-light>
     `;
     $scene.append(new_light_structure);
@@ -34,15 +34,15 @@ function spawn_spotlight({x, y, z}, life_time, frequence) {
     let $light = $("#"+id_of_new_light);
     console.log($light)
     let increasing = true;  
-    let intensity = 10;
+    let intensity = 2;
 
     let interval = setInterval(() => {
         if (increasing) {
-            intensity += 1;
-            if (intensity >= 60) increasing = false;
+            intensity += 0.1;
+            if (intensity >= 4) increasing = false;
         } else {
-            intensity -= 1;
-            if (intensity <= 10) increasing = true;
+            intensity -= 0.1;
+            if (intensity <= 2) increasing = true;
         }
         $light.attr('intensity', `${intensity}`);
     }, frequence);  
@@ -127,8 +127,16 @@ function set_vignette_strength(value) {
     value = Math.max(0, Math.min(1, value));
 
     vignette_obg.css("--v-strength", value);
+    console.log(value)
 }
 
 function tetseImport(){
     window.alert("oi")
+}
+
+export {
+    set_vignette_size,
+    set_vignette_strength,
+    set_prinpal_light_distance,
+    spawn_spotlight
 }

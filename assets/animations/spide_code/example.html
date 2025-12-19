@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.0.0/dist/aframe-extras.min.js"></script>
+  <script src="./scripts/spider-loader.js"></script>
+  <script src="./scripts/spider-controller.js"></script>
+</head>
+
+<body>
+  <a-scene>
+    <a-assets>
+      <a-asset-item id="spider-base" src="./assets/spider/animations/idle/Giant_Spider_idle.glb"></a-asset-item>
+    </a-assets>
+
+    <a-circle id="spider-hole" color="#000000" rotation="-90 0 0" position="0 0.01 -4" radius="1.5"
+      scale="0 0 0"></a-circle>
+
+    <a-entity gltf-model="#spider-base" position="-10 0 -10" scale="0.5 0.5 0.5" spider-anim-loader
+      spider-cinematic-controller="stay_height: 'true'" spawn_type="web" stay_height="true" drop_height="15">
+    </a-entity>
+
+    <a-entity gltf-model="#spider-base" position="12 0 -10" scale="0.5 0.5 0.5" spider-anim-loader
+      spider-cinematic-controller="stay_height: 'false', spawn_type='hole'" drop_height="15">
+    </a-entity>
+
+    <a-entity gltf-model="#spider-base" position="0 0 -10" scale="0.5 0.5 0.5" spider-anim-loader
+      spider-cinematic-controller="stay_height: 'false', spawn_type='hole'" drop_height="15">
+    </a-entity>
+
+    <a-light type="directional" position="2 4 2" intensity="0.8"></a-light>
+    <a-sky color="#fff"></a-sky>
+
+    <a-entity camera position="0 2 3" look-controls wasd-controls></a-entity>
+  </a-scene>
+</body>
+
+</html>

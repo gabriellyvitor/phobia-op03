@@ -3,8 +3,12 @@
     <link rel="stylesheet" href="./css/main.css">
     <script src="./libs/jQuery/index.js"></script>
     <script src="https://aframe.io/releases/1.7.1/aframe.min.js"></script>
-    <script  src="./scripts/code.js"></script>
-    <script  src="./scripts/light_control.js"></script>
+    <script type="module" src="./scripts/code.js"></script>
+    <script type="module" src="./scripts/light_control.js"></script>
+    <script type="module" src="../../assets/animations/spide_code/spider-controller.js"></script>
+    <script type="module" src="../../assets/animations/spide_code/spider-loader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aframe-extras@6.1.1/dist/aframe-extras.min.js"></script>
+
     <meta charset="UTF-8">
   </head>
   <body>
@@ -12,6 +16,9 @@
       <div class="proprietary_ui">
         <div id="hud">
         </div>
+      </div>
+      <div id="experience-timer" class="hide easy-box">
+        <span id="timer-text" class="easy-text">03:00</span>
       </div>
       <div class="post-processing-effect">
         <div id="vignette"></div>
@@ -30,8 +37,45 @@
           <img id="carpetNormal" src="../../assets/images/carpet_normal.jpg" crossorigin="anonymous">
           <img id="carpetRoughness" src="../../assets/images/carpet_roughness.jpg" crossorigin="anonymous">
           <img id="carpetAO" src="../../assets/images/carpet_ao.jpg" crossorigin="anonymous">
+          <a-asset-item id="door" src="../../assets/3Dmodels/Door.glb" crossorigin="anonymous"></a-asset-item>
+          <a-asset-item id="barricade" src="../../assets/3Dmodels/Barricade.glb" crossorigin="anonymous"></a-asset-item>
+          <a-asset-item id="window" src="../../assets/3Dmodels/Window.glb" crossorigin="anonymous"></a-assets-item>
+          <a-asset-item id="windowBarricade1" src="../../assets/3Dmodels/windowBarricade1.glb" crossorigin="anonymous"></a-asset-item>
+          <a-asset-item id="windowBarricade2" src="../../assets/3Dmodels/windowBarricade2.glb" crossorigin="anonymous"></a-asset-item>
+          <a-asset-item id="windowRounded" src="../../assets/3Dmodels/WindowRounded.glb" crossorigin="anonymous"></a-asset-item>
+          <a-asset-item id="Bed" src="../../assets/3Dmodels/Bed.glb" crossorigin="anonymous"></a-asset-item>
+          <a-asset-item id="Bookshelf" src="../../assets/3Dmodels/Bookshelf.glb" crossorigin="anonymous"></a-asset-item>
+          <a-asset-item id="Lamp" src="../../assets/3Dmodels/Lamp.glb" crossorigin="anonymous"></a-asset-item>
+          <a-asset-item id="Closet" src="../../assets/3Dmodels/Closet.glb" crossorigin="anonymous"></a-asset-item>
+          <a-asset-item id="Boxes1" src="../../assets/3Dmodels/Boxes1.glb" crossorigin="anonymous"></a-asset-item>
+          <a-asset-item id="Boxes2" src="../../assets/3Dmodels/Boxes2.glb" crossorigin="anonymous"></a-asset-item>
+          <a-asset-item id="Papers" src="../../assets/3Dmodels/Papers.glb" crossorigin="anonymous"></a-asset-item>
+          <a-asset-item id="Cobweb" src="../../assets/3Dmodels/Cobweb.glb" crossorigin="anonymous"></a-asset-item>
+          <a-asset-item id="BrokenGlass" src="../../assets/3Dmodels/BrokenGlass.glb" crossorigin="anonymous"></a-asset-item>
+          <a-asset-item id="Shelf" src="../../assets/3Dmodels/Shelf.glb" crossorigin="anonymous"></a-asset-item>
+          <a-asset-item id="ToySpider" src="../../assets/3Dmodels/ToySpider.glb" crossorigin="anonymous"></a-asset-item>
+          <a-asset-item id="ToyBuild" src="../../assets/3Dmodels/Skyscraper.glb" crossorigin="anonymous"></a-asset-item>
+          <a-asset-item id="giantSpider" src="../../assets/3Dmodels/Giant_Spider.glb" crossorigin="anonymous"></a-asset-item>
+          <audio id="ambient" src="../../assets/sounds/ambient_music.mp3" preload="auto"></audio>
+          <audio id="confirm" src="../../assets/sounds/confirm.wav" preload="auto"></audio>
+          <audio id="explode" src="../../assets/sounds/explode.wav" preload="auto"></audio>
+          <audio id="spawned" src="../../assets/sounds/spawned.wav" preload="auto"></audio>
         </a-assets>
-        <a-camera position="0 1.6 0" wasd-controls="enabled: false" id="player"></a-camera>
+        <a-camera position="0 1.6 0" wasd-controls="enabled: false" id="player">
+          <a-cursor
+            fuse="true"
+            fuse-timeout="300"
+            color="#fff"
+            animation__fuse="property: scale; from: 1 1 1; to: 0.6 0.6 0.6; dur: 300"></a-cursor>
+        </a-camera>
+        <a-entity 
+          id="ambient_mixer"
+          sound="src: #ambient; autoplay: false; loop: true; volume: 0.3"
+          ></a-entity>
+        <a-entity 
+          id="confirm_mixer"
+          sound="src: #confirm; autoplay: false; loop: false; volume: 0.5"
+          ></a-entity>
         <a-plane 
           color="#855e49"
           material="shader: standard; src: #woodTexture; side: double; repeat: 5 5; normal-map: #woodNormal; normal-texture-repeat: 5 5; roughness-map: #woodRoughness; ao-map: #woodAO;"
@@ -155,6 +199,221 @@
           width="6"
           height="10">
         </a-plane>
+        <a-box
+          color="#855d48"
+          material="src: #woodTexture; repeat: 1 3; normal-map: #woodNormal; normal-texture-repeat: 1 3; roughness-map: #woodRoughness; ao-map: #woodAO;"
+          position="0 0.05 4.95"
+          width="6"
+          height="0.1"
+          depth="0.1"
+          ></a-box>
+          <a-box
+          color="#855d48"
+          material="src: #woodTexture; repeat: 1 3; normal-map: #woodNormal; normal-texture-repeat: 1 3; roughness-map: #woodRoughness; ao-map: #woodAO;"
+          position="0 0.05 -4.97"
+          width="6"
+          height="0.1"
+          depth="0.1"
+          ></a-box>
+          <a-box
+          color="#855d48"
+          material="src: #woodTexture; repeat: 1 3; normal-map: #woodNormal; normal-texture-repeat: 1 3; roughness-map: #woodRoughness; ao-map: #woodAO;"
+          position="-2.95 0.05 0"
+          width="0.1"
+          height="0.1"
+          depth="10"
+          ></a-box>
+          <a-box
+          color="#855d48"
+          material="src: #woodTexture; repeat: 1 3; normal-map: #woodNormal; normal-texture-repeat: 1 3; roughness-map: #woodRoughness; ao-map: #woodAO;"
+          position="2.95 0.05 0"
+          width="0.1"
+          height="0.1"
+          depth="10"
+          ></a-box>
+          <a-box
+          color="#1b421d"
+          material="src: #wallTexture; repeat: 1 3; normal-map: #woodNormal; normal-texture-repeat: 1 3; roughness-map: #woodRoughness; ao-map: #woodAO;"
+          position="0 2.95 4.95"
+          width="6"
+          height="0.2"
+          depth="0.1"
+          ></a-box>
+          <a-box
+          color="#1b421d"
+          material="src: #wallTexture; repeat: 1 3; normal-map: #woodNormal; normal-texture-repeat: 1 3; roughness-map: #woodRoughness; ao-map: #woodAO;"
+          position="0 2.95 -4.95"
+          width="6"
+          height="0.2"
+          depth="0.1"
+          ></a-box>
+          <a-box
+          color="#1b421d"
+          material="src: #wallTexture; repeat: 1 3; normal-map: #woodNormal; normal-texture-repeat: 1 3; roughness-map: #woodRoughness; ao-map: #woodAO;"
+          position="-2.95 2.95 0"
+          width="0.1"
+          height="0.2"
+          depth="10"
+          ></a-box>
+          <a-box
+          color="#1b421d"
+          material="src: #wallTexture; repeat: 1 3; normal-map: #woodNormal; normal-texture-repeat: 1 3; roughness-map: #woodRoughness; ao-map: #woodAO;"
+          position="2.95 2.95 0"
+          width="0.1"
+          height="0.2"
+          depth="10"
+          ></a-box>
+          <a-entity 
+            gltf-model="#door" 
+            position="0 0 -4.95" 
+            rotation="0 180 0" 
+            scale="1 0.9 1"
+            ></a-entity>
+          <a-entity 
+            gltf-model="#barricade"
+            position="0 0.5 -4.8"
+            rotation="0 90 0"
+            scale="1 1.6 1.5"
+            ></a-entity>
+          <a-entity 
+            gltf-model="#window" 
+            position="-2.95 1.5 2" 
+            rotation="0 0 0" 
+            scale="1.2 2 1.7"
+            ></a-entity>
+          <a-entity 
+            gltf-model="#windowBarricade1"
+            position="-2.9 1.5 1.5"
+            rotation="0 0 0"
+            scale="0.00008 0.00008 0.00008"
+            ></a-entity>
+          <a-entity 
+            gltf-model="#window" 
+            position="2.95 1.5 -2" 
+            rotation="0 180 0" 
+            scale="1.2 2 1.7"
+            ></a-entity>
+          <a-entity 
+            gltf-model="#windowBarricade1"
+            position="2.9 1.5 -1.5"
+            rotation="0 180 0"
+            scale="0.00008 0.00008 0.00008"
+            ></a-entity>
+          <a-entity 
+            gltf-model="#window" 
+            position="-2.95 1.5 -2" 
+            rotation="0 0 0" 
+            scale="1.2 2 1.7"
+            ></a-entity>
+          <a-entity 
+            gltf-model="#windowBarricade2"
+            position="-2.9 1 -2"
+            rotation="0 180 0"
+            scale="1 1 1"
+            ></a-entity>
+          <a-entity 
+            gltf-model="#window" 
+            position="2.95 1.5 2" 
+            rotation="0 180 0" 
+            scale="1.2 2 1.7"
+            ></a-entity>
+          <a-entity 
+            gltf-model="#windowBarricade2"
+            position="2.9 1 2"
+            rotation="0 0 0"
+            scale="1 1 1"
+            ></a-entity>
+          <a-entity 
+            gltf-model="#windowRounded" 
+            position="0 2.2 4.85" 
+            rotation="0 180 0" 
+            scale="1.8 1.8 1.8"
+            ></a-entity>
+          <a-entity 
+            gltf-model="#Bed" 
+            position="2.2 0 3.4" 
+            rotation="0 180 0" 
+            scale="0.7 0.7 0.7"
+            ></a-entity>
+          <a-entity 
+            gltf-model="#Bookshelf"
+            position="1 0.34 4.2"
+            rotation="0 90 0"
+            scale="2 0.6 0.6"
+            ></a-entity>
+          <a-entity
+            gltf-model="#Lamp"
+            position="0 2.5 0"
+            rotation="0 0 0"
+            scale="0.5 0.5 0.5"
+            ></a-entity>
+          <a-light 
+            type="point" 
+            color="#ffffff" 
+            intensity="0.7" 
+            distance="10" 
+            position="0 1.8 0"
+            ></a-light>
+          <a-entity
+            gltf-model="#Closet"
+            position="-2.1 0 -4.2"
+            rotation="0 30 0"
+            scale="1 0.9 1"
+            ></a-entity>
+          <a-entity
+            gltf-model="#Boxes2"
+            position="-2.2 0 4.175"
+            rotation="0 -30 0"
+            scale="1 1 1"
+            ></a-entity>
+          <a-entity
+            gltf-model="#Boxes1"
+            position="-2.519 0.334 3.091"
+            rotation="0 60 -45.000"
+            scale="1 1 1"
+            ></a-entity>
+          <a-entity
+            gltf-model="#Boxes1"
+            position="-1.8 0 3.439"
+            rotation="0 0 0"
+            scale="0.6 0.6 0.6"
+            ></a-entity>
+          <a-entity
+            gltf-model="#Papers"
+            position="1.5 0 1.5"
+            rotation="0 0 0"
+            scale="1 1 1"
+            ></a-entity>
+          <a-entity
+            gltf-model="#BrokenGlass"
+            position="2.353 0.0 -1.932"
+            rotation="0 0 0"
+            scale="2 2 2"
+            ></a-entity>
+          <a-entity
+            gltf-model="#Shelf"
+            position="-2.7 1.2 0"
+            rotation="0 0 0"
+            scale="0.6 0.6 0.6"
+            ></a-entity>
+          <a-entity
+            gltf-model="#Shelf"
+            position="2.7 1.2 0"
+            rotation="0 180 0"
+            scale="0.6 0.6 0.6"
+            ></a-entity>
+          <a-entity
+            gltf-model="#ToySpider"
+            position="2.758 1.4 0.343"
+            rotation="0 20 0"
+            scale="0.001 0.001 0.001"
+            ></a-entity>
+          <a-entity
+            gltf-model="#ToyBuild"
+            position="2.222 1.4 3.348"
+            rotation="0 -105 0"
+            scale="0.03 0.03 0.03"
+            ></a-entity>
         <a-sky color="#000000"></a-sky>
       </a-scene>
     </div>

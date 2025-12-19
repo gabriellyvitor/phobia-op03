@@ -1,0 +1,69 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="./css/main.css">
+    <script src="./libs/jQuery/index.js"></script>
+    <script src="https://aframe.io/releases/1.7.1/aframe.min.js"></script>
+    <script src="./scripts/test.js"></script>
+    <script type="module" src="./scripts/light_control.js"></script>
+  </head>
+  <body>
+    <div class="scene" id="main">
+      <div class="proprietary_ui">
+        <div id="hud">
+          <div class="flex_column">
+            <div class="card">
+              <button class="close-btn" id="start-experience" onclick="closeHud()">Start Experience</button>
+              <div class="slideBar">
+                  <label for="vignette_size">vignette_size:</label>
+                  <input type="range" id="vignette_size" name="vignette_size" 
+                  min="10" max="100" value="50"
+                  oninput="set_vignette_size(this.value)">
+              </div>
+                <div class="slideBar">
+                  <label for="vignette_strength">vignette_strength:</label>
+                  <input type="range" id="vignette_strength" name="vignette_strength" 
+                  step="0.1" min="0" max="1" value="0.4"
+                  oninput="set_vignette_strength(this.value)">
+              </div>
+            </div>
+            <div class="card">
+              <button class="close-btn" onclick="loading_ambient_light()">Loading ambient light</button>
+              <!-- Adiciona uma luz que pisca no ambiente, passa a posição -->
+              <button class="close-btn" onclick="spawn_spotlight({
+                x:16, y:3, z:-10
+              }, 2000)">Spawn indicator ligth</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="post-processing-effect">
+        <div id="vignette"></div>
+      </div>
+      <a-scene id="core-vr">
+        <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
+        <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
+        <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
+        <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
+        <a-light id="prinpal_light" 
+          type="point" 
+          angle="90" 
+          color="#856d41"
+          ></a-light>
+        <a-light id="ambient_light" type="ambient" intensity="0.1" color="#000"></a-light>
+        <a-cylinder position="16 0.75 -20" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
+        <a-sky 
+          color="#0e0f12"        
+          metalness="0"
+          roughness="0.85"
+          opacity="1"
+          radius="300"           
+          shader="flat"           
+          side="back"              
+          segments-width="64"   
+          segments-height="32"  
+          ></a-sky>
+      </a-scene>
+    </div>
+  </body>
+</html>
+
