@@ -325,7 +325,7 @@ let spawnPoints = [{
         "pos": {
             x: [-2.75, 2.75],
             z: [-4.75, 4.75],
-            y: 0
+            y: 0.05
         },
         "rot": {
             x: 0,
@@ -337,7 +337,7 @@ let spawnPoints = [{
     {
         "name": "left_wall",
         "pos": {
-            x: -3,
+            x: -2.95,
             z: [-4.75, 4.75],
             y: [0.25, 2.75]
         },
@@ -351,7 +351,7 @@ let spawnPoints = [{
     {
         "name": "right_wall",
         "pos": {
-            x: 3,
+            x: 2.95,
             z: [-4.75, 4.75],
             y: [0.25, 2.75]
         },
@@ -366,7 +366,7 @@ let spawnPoints = [{
         "name": "back_wall",
         "pos": {
             x: [-2.75, 2.75],
-            z: 5,
+            z: 4.95,
             y: [0.25, 2.75]
         },
         "rot": {
@@ -380,7 +380,7 @@ let spawnPoints = [{
         "name": "front_wall",
         "pos": {
             x: [-2.75, 2.75],
-            z: -5,
+            z: -4.95,
             y: [0.25, 2.75]
         },
         "rot": {
@@ -395,7 +395,7 @@ let spawnPoints = [{
         "pos": {
             x: [-2.75, 2.75],
             z: [-4.75, 4.75],
-            y: 3
+            y: 2.95
         },
         "rot": {
             x: 180,
@@ -420,7 +420,7 @@ function spawnSpider() {
     let spiderPos = new THREE.Vector3();
     let dot = -1;
 
-    let spiderSpawnPoint = spawnPoints[Math.floor(Math.random() * spawnPoints.length)];
+    let spiderSpawnPoint = spawnPoints[Math.round(Math.random() * spawnPoints.length)];
 
     // Helper to check collision with existing entities (except a-plane)
     function isColliding(pos, radius = 0.5) {
@@ -488,7 +488,7 @@ function spawnSpider() {
         loop: "repeat",
         timeScale: 1
     });
-    spiderEntity[spiderId].setAttribute("sound", "src: #spawned; autoplay: true; volume: 0.2, positional: true; distanceModel: linear; maxDistance: 10; refDistance: 1");
+    spiderEntity[spiderId].setAttribute("sound", "src: #spawned; autoplay: true; volume: 0.8, positional: true; distanceModel: linear; maxDistance: 10; refDistance: 1");
     spiderEntity[spiderId].setAttribute('spider-cinematic-controller', {
         spawn_type: 'web'
     });
